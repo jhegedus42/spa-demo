@@ -3,8 +3,13 @@ package app.material
 import app.components.todo.TodoList
 import app.material.org.rebeam.tree_material_ui.view.Navigation
 import app.models.todo.Todo
+import app.routing.AppRouter.TodoPage
 import app.state_handling.AppCircuit
+import diode.data.Pot
+import diode.react.{ModelProxy, ReactConnectProxy}
+import japgolly.scalajs.react.{ReactComponentU, ReactElement, TopNode}
 import japgolly.scalajs.react.extra.router.{BaseUrl, Redirect, Resolution, Router, RouterConfigDsl, RouterCtl}
+import spatutorial.client.services.{SPACircuit, Todos}
 
 object AppRouter {
 
@@ -12,6 +17,7 @@ object AppRouter {
   {
     sealed trait Page
     case object Home          extends Page
+    case object TodoSPA       extends Page
     case object ReorderList      extends Page
     sealed abstract class TodoFilter(val link: String, val title: String, val accepts: Todo => Boolean) extends Page
 
@@ -39,10 +45,17 @@ object AppRouter {
       val filterRoutes: Rule = TodoFilter.values.map(filterRoute).reduce(_ | _)
     }
 
+    object SPATodoRule {
+      val todoWrapper: ReactConnectProxy[Pot[Todos]] = SPACircuit.connect(_.todos)
+      val todoRender: (Any) => ReactComponentU[(ModelProxy[Pot[Todos]]) => ReactElement, Pot[Todos], Any, TopNode] = _ => todoWrapper(spatutorial.client.modules.Todo(_))
+      val todoRule=staticRoute("#todo", TodoSPA) ~> renderR(todoRender )
+    }
+
     (trimSlashes
       | staticRoute(root,   Home) ~> render(View.homeView("1")())
       | TodoRule.filterRoutes
       | staticRoute("#reorder_list", ReorderList) ~> render(SortableContainerDemo.c())
+      | SPATodoRule.todoRule
       )
 
       .notFound(redirectToPage(Home)(Redirect.Replace))
@@ -50,10 +63,12 @@ object AppRouter {
       .verify(Home, ReorderList, TodoFilter.All)
   }
 
+
   val navs = Map(
     "Home" -> Home,
     "Todo List" -> TodoFilter.All,
-    "Reorder List" -> ReorderList
+    "Reorder List" -> ReorderList,
+    "TODO SPA Tutorial" -> TodoSPA
   )
 
 

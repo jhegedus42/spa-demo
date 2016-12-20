@@ -1,13 +1,16 @@
 package spatutorial.client
 
-import japgolly.scalajs.react.ReactDOM
+import app.Root
+import diode.data.Pot
+import diode.react.{ModelProxy, ReactConnectProxy}
+import japgolly.scalajs.react.{ReactComponentU, ReactDOM, ReactElement, TopNode}
 import japgolly.scalajs.react.extra.router._
 import japgolly.scalajs.react.vdom.prefix_<^._
 import org.scalajs.dom
 import spatutorial.client.components.GlobalStyles
 import spatutorial.client.logger._
 import spatutorial.client.modules._
-import spatutorial.client.services.SPACircuit
+import spatutorial.client.services.{SPACircuit, Todos}
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExport
@@ -27,15 +30,15 @@ object SPAMain extends js.JSApp {
   // configure the router
   val routerConfig = RouterConfigDsl[Loc].buildConfig { dsl =>
     import dsl._
-
-    val todoWrapper = SPACircuit.connect(_.todos)
+    val todoWrapper: ReactConnectProxy[Pot[Todos]] = SPACircuit.connect(_.todos)
+    val todoRender: (Any) => ReactComponentU[(ModelProxy[Pot[Todos]]) => ReactElement, Pot[Todos], Any, TopNode] = _ => todoWrapper(Todo(_))
     // wrap/connect components to the circuit
     (staticRoute(root, DashboardLoc) ~> renderR(ctl => SPACircuit.wrap(_.motd)(proxy => Dashboard(ctl, proxy)))
-      | staticRoute("#todo", TodoLoc) ~> renderR(ctl => todoWrapper(Todo(_)))
+      | staticRoute("#todo", TodoLoc) ~> renderR(todoRender )
       ).notFound(redirectToPage(DashboardLoc)(Redirect.Replace))
   }.renderWith(layout)
 
-  val todoCountWrapper = SPACircuit.connect(_.todos.map(_.items.count(!_.completed)).toOption)
+  val todoCountWrapper: ReactConnectProxy[Option[Int]] = SPACircuit.connect(_.todos.map(_.items.count(!_.completed)).toOption)
   // base layout for all pages
   def layout(c: RouterCtl[Loc], r: Resolution[Loc]) = {
     <.div(
@@ -66,6 +69,7 @@ object SPAMain extends js.JSApp {
     // create the router
     val router = Router(BaseUrl.until_#, routerConfig)
     // tell React to render the router in the document body
-    ReactDOM.render(router(), dom.document.getElementById("root"))
+    //ReactDOM.render(router(), dom.document.getElementById("root"))
+    ReactDOM.render(Root.themedView(), dom.document.getElementById("joco"))
   }
 }

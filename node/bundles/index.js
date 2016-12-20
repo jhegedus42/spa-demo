@@ -17,3 +17,6 @@ window.Sortable = require('react-sortable-hoc');
 window.SortableContainer = window.Sortable.SortableContainer;
 window.SortableElement = window.Sortable.SortableElement;
 window.SortableHandle = window.Sortable.SortableHandle;
+
+window.React = require('react');
+window.ReactDOM = require('react-dom');

@@ -10,7 +10,7 @@ module.exports = {
         // material_ui: './bundles/material-ui.js',
     },
     output: {
-        path: __dirname + '../server/src/main/assets/',
+        path: __dirname + '/../server/src/main/assets/generated.js/',
         publicPath: "/assets/",
         filename: '[name]-bundle.js'
     },

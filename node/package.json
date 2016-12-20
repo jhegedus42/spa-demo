@@ -1,14 +1,9 @@
 {
-  "name": "tree-material-ui-webpack",
+  "name": "sbt-demo",
   "version": "0.1.0",
-  "description": "Webpack configuration for tree-material-ui",
+  "description": "Webpack configuration for sbt-demo",
   "license": "GPL-3.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/trepidacious/tree-material-ui.git"
-  },
   "scripts": {
-    "start": "webpack --watch & webpack-dev-server --progress --colors --port 8090",
     "build": "webpack --config webpack.config.prod.js",
     "dist": "webpack --config webpack.config.prod.js"
   },
