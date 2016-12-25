@@ -1,4 +1,4 @@
-package app.pages
+package app.routing.pages
 
 import app.components.EditableSortableListDemo
 import japgolly.scalajs.react._

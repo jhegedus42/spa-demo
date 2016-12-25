@@ -46,6 +46,51 @@ lazy val client: Project = (project in file("client"))
 // Client projects (just one in this case)
 lazy val clients = Seq(client)
 
+
+val app = crossProject.in(file("spray_simple")).settings(
+  unmanagedSourceDirectories in Compile +=
+    baseDirectory.value  / "shared" / "main" / "scala",
+  libraryDependencies ++= Seq(
+    "com.lihaoyi" %%% "scalatags" % "0.6.2",
+    "com.lihaoyi" %%% "upickle" % "0.4.4"
+  ),
+  scalaVersion := "2.11.8"
+).jsSettings(
+  libraryDependencies ++= Seq(
+    "org.scala-js" %%% "scalajs-dom" % "0.9.1"
+  )
+).jvmSettings(
+  libraryDependencies ++= Seq(
+    "com.typesafe.akka" %% "akka-http-experimental" % "2.4.11",
+    "com.typesafe.akka" %% "akka-actor" % "2.4.12",
+    "org.webjars" % "bootstrap" % "3.2.0",
+    "io.spray" %% "spray-can" % "1.3.3",
+    "io.spray" %% "spray-routing" % "1.3.3",
+    "com.typesafe.akka" %% "akka-actor" % "2.3.6"
+  )
+)
+
+// instantiate the JVM project for SBT with some additional settings
+lazy val spray_simple= (project in file("spray_simple"))
+  .settings(
+      name := "spray_simple",
+      version := Settings.version,
+      scalaVersion := Settings.versions.scala,
+      scalacOptions ++= Settings.scalacOptions,
+//      libraryDependencies ++= Settings.jvmDependencies.value
+      libraryDependencies ++= Seq(
+        "com.lihaoyi" %%% "scalatags" % "0.6.2",
+        "com.lihaoyi" %%% "upickle" % "0.4.4",
+        "com.typesafe.akka" %% "akka-http-experimental" % "2.4.11",
+        "com.typesafe.akka" %% "akka-actor" % "2.4.12",
+        "org.webjars" % "bootstrap" % "3.2.0",
+        "io.spray" %% "spray-can" % "1.3.3",
+        "io.spray" %% "spray-routing" % "1.3.3"
+        )
+  )
+//  .dependsOn(sharedJVM)
+
+
 // instantiate the JVM project for SBT with some additional settings
 lazy val server = (project in file("server"))
   .settings(
@@ -54,7 +99,6 @@ lazy val server = (project in file("server"))
     scalaVersion := Settings.versions.scala,
     scalacOptions ++= Settings.scalacOptions,
     libraryDependencies ++= Settings.jvmDependencies.value,
-    commands += ReleaseCmd,
     // triggers scalaJSPipeline when using compile or continuous compilation
     compile in Compile <<= (compile in Compile) dependsOn scalaJSPipeline,
     // connect to the client project
@@ -69,19 +113,17 @@ lazy val server = (project in file("server"))
   .aggregate(clients.map(projectToRef): _*)
   .dependsOn(sharedJVM)
 
-// Command for building a release
-lazy val ReleaseCmd = Command.command("release") {
-  state => "set elideOptions in client := Seq(\"-Xelide-below\", \"WARNING\")" ::
-    "client/clean" ::
-    "client/test" ::
-    "server/clean" ::
-    "server/test" ::
-    "server/dist" ::
-    "set elideOptions in client := Seq()" ::
-    state
-}
 
-// lazy val root = (project in file(".")).aggregate(client, server)
+lazy val root = (project in file(".")).aggregate(client, server, spray_simple)
 
 // loads the Play server project at sbt startup
 onLoad in Global := (Command.process("project server", _: State)) compose (onLoad in Global).value
+mainClass in Global := Some("com.danielasfregola.quiz.management.Main")
+fork in run := true
+cancelable in Global := true
+
+
+lazy val appJS = app.js
+lazy val appJVM = app.jvm.settings(
+  (resources in Compile) += (fastOptJS in (appJS, Compile)).value.data
+)

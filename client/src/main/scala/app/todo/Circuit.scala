@@ -1,8 +1,7 @@
-package app.state_handling
+package app.todo
 
-import app.models.todo._
-import diode.{ActionHandler, Circuit, ModelRW}
 import diode.react.ReactConnector
+import diode.{ActionHandler, Circuit, ModelRW}
 
 object AppCircuit extends Circuit[AppModel] with ReactConnector[AppModel] {
   // define initial value for the application model

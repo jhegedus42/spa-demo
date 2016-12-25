@@ -1,10 +1,7 @@
 package app.material
 
-import app.components.todo.TodoList
 import app.material.org.rebeam.tree_material_ui.view.Navigation
-import app.models.todo.Todo
-import app.routing.AppRouter.TodoPage
-import app.state_handling.AppCircuit
+import app.todo.{AppCircuit, Todo, TodoList}
 import diode.data.Pot
 import diode.react.{ModelProxy, ReactConnectProxy}
 import japgolly.scalajs.react.{ReactComponentU, ReactElement, TopNode}

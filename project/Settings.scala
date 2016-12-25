@@ -37,6 +37,10 @@ object Settings {
     val bootstrap = "3.3.6"
     val chartjs = "2.1.3"
 
+    val spray = "1.3.3"
+    val akka = "2.4.7"
+    val Json4sVersion     = "3.2.11"
+
     val scalajsScripts = "1.0.0"
   }
 
@@ -46,7 +50,9 @@ object Settings {
    */
   val sharedDependencies = Def.setting(Seq(
     "com.lihaoyi" %%% "autowire" % versions.autowire,
-    "me.chrons" %%% "boopickle" % versions.booPickle
+    "me.chrons" %%% "boopickle" % versions.booPickle,
+    "com.lihaoyi" %%% "scalatags" % "0.6.2",
+    "com.lihaoyi" %%% "upickle" % "0.4.4"
   ))
 
   /** Dependencies only used by the JVM project */
@@ -54,7 +60,13 @@ object Settings {
     "com.vmunier" %% "scalajs-scripts" % versions.scalajsScripts,
     "org.webjars" % "font-awesome" % "4.3.0-1" % Provided,
     "org.webjars" % "bootstrap" % versions.bootstrap % Provided,
-    "com.lihaoyi" %% "utest" % versions.uTest % Test
+    "com.lihaoyi" %% "utest" % versions.uTest % Test,
+    "io.spray" %% "spray-can" % versions.spray,
+    "io.spray" %% "spray-routing" % versions.spray,
+    "com.typesafe.akka" %% "akka-actor" % versions.akka,
+    "ch.qos.logback"    %  "logback-classic" % "1.1.2",
+    "org.json4s"        %% "json4s-native"   % versions.Json4sVersion,
+    "org.json4s"        %% "json4s-ext"      % versions.Json4sVersion
   ))
 
   /** Dependencies only used by the JS project (note the use of %%% instead of %%) */

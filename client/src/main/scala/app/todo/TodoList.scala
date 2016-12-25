@@ -1,11 +1,9 @@
-package app.components.todo
+package app.todo
 
 import app.material.AppRouter.Pages.{Page, TodoFilter}
-import app.models.todo._
 import diode.Action
 import diode.react.ModelProxy
 import interop.wrappers.react_sortable_hoc.{SortableContainer, SortableElement, SortableView}
-import japgolly.scalajs.react.ReactComponentC.{BaseCtor, ReqProps}
 import japgolly.scalajs.react._
 import japgolly.scalajs.react.extra.router._
 import japgolly.scalajs.react.vdom.prefix_<^._

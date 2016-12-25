@@ -1,4 +1,4 @@
-package app.models.todo
+package app.todo
 
 import java.util.UUID
 

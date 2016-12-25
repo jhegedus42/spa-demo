@@ -1,4 +1,4 @@
-package app.pages
+package app.routing.pages
 
 
 import japgolly.scalajs.react._
