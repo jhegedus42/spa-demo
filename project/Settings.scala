@@ -38,7 +38,7 @@ object Settings {
     val chartjs = "2.1.3"
 
     val spray = "1.3.3"
-    val akka = "2.4.7"
+    val akka = "2.4.12"
     val Json4sVersion     = "3.2.11"
 
     val scalajsScripts = "1.0.0"
@@ -66,7 +66,8 @@ object Settings {
     "com.typesafe.akka" %% "akka-actor" % versions.akka,
     "ch.qos.logback"    %  "logback-classic" % "1.1.2",
     "org.json4s"        %% "json4s-native"   % versions.Json4sVersion,
-    "org.json4s"        %% "json4s-ext"      % versions.Json4sVersion
+    "org.json4s"        %% "json4s-ext"      % versions.Json4sVersion,
+    "com.typesafe.akka" %% "akka-http-experimental" % "2.4.11"
   ))
 
   /** Dependencies only used by the JS project (note the use of %%% instead of %%) */

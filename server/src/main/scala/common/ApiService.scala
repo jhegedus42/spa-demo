@@ -2,7 +2,7 @@ package common
 
 import java.util.{Date, UUID}
 
-import spatutorial.shared._
+import app.root.pages.spatutorial.shared._
 
 class ApiService extends Api {
   var todos = Seq(

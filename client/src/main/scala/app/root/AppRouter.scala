@@ -1,14 +1,13 @@
 package app.root
 
-import app.common.View
-import app.root.org.rebeam.tree_material_ui.view.Navigation
-import app.root.sortableList.SortableContainerDemo
-import app.root.todo.{AppCircuit, Todo, TodoList}
+import app.root.components.{Navigation, View}
+import app.root.pages.sortableList.SortableContainerDemo
+import app.root.pages.todo.{AppCircuit, Todo, TodoList}
 import diode.data.Pot
 import diode.react.{ModelProxy, ReactConnectProxy}
 import japgolly.scalajs.react.{ReactComponentU, ReactElement, TopNode}
 import japgolly.scalajs.react.extra.router.{BaseUrl, Redirect, Resolution, Router, RouterConfigDsl, RouterCtl}
-import spatutorial.client.services.{SPACircuit, Todos}
+import app.root.pages.spatutorial.client.services.{SPACircuit, Todos}
 
 object AppRouter {
 
@@ -46,7 +45,7 @@ object AppRouter {
 
     object SPATodoRule {
       val todoWrapper: ReactConnectProxy[Pot[Todos]] = SPACircuit.connect(_.todos)
-      val todoRender: (Any) => ReactComponentU[(ModelProxy[Pot[Todos]]) => ReactElement, Pot[Todos], Any, TopNode] = _ => todoWrapper(spatutorial.client.modules.Todo(_))
+      val todoRender: (Any) => ReactComponentU[(ModelProxy[Pot[Todos]]) => ReactElement, Pot[Todos], Any, TopNode] = _ => todoWrapper(pages.spatutorial.client.modules.Todo(_))
       val todoRule=staticRoute("#todo", TodoSPA) ~> renderR(todoRender )
     }
 

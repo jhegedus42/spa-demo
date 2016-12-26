@@ -16,6 +16,11 @@
 	<script type="text/javascript" src=@_asset("generated.js/index-bundle.js")></script>
         <div id="root"> </div>
         <div id="joco"> </div>
-        @scalajs.html.scripts(projectName = "client", name => _asset(name).toString, name => getClass.getResource(s"/public/$name") != null)
+//        @scalajs.html.scripts(projectName = "play client", name => _asset(name).toString, name => getClass.getResource(s"/public/$name") != null)
+@*<script>org.rebeam.tree.demo.ReactApp().main()</script>*@
+    <script type="text/javascript" src=@_asset("play-client-jsdeps.js")></script>
+	<script type="text/javascript" src=@_asset("play-client-fastopt.js")></script>
+    <script type="text/javascript" src=@_asset("play-client-launcher.js")></script>
+
     </body>
 </html>

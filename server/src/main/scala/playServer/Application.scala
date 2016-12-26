@@ -6,7 +6,7 @@ import boopickle.Default._
 import com.google.inject.Inject
 import play.api.mvc._
 import play.api.{Configuration, Environment}
-import spatutorial.shared.Api
+import app.root.pages.spatutorial.shared.Api
 
 import scala.concurrent.ExecutionContext.Implicits.global
 

@@ -1,6 +1,6 @@
 package _learning.interop.wrappers.react_sortable_hoc
 
-import app.common.View
+import app.root.components.View
 import japgolly.scalajs.react.vdom.prefix_<^._
 
 object SortableView {
