@@ -1,6 +1,5 @@
 package spatutorial.client
 
-import app.Root
 import diode.data.Pot
 import diode.react.{ModelProxy, ReactConnectProxy}
 import japgolly.scalajs.react.{ReactComponentU, ReactDOM, ReactElement, TopNode}
