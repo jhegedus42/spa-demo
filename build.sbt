@@ -40,6 +40,7 @@ lazy val client: Project = (project in file("client"))
     mainClass in Compile := Some("app.root.SprayClient")
   )
   .enablePlugins(ScalaJSPlugin, ScalaJSWeb)
+  .disablePlugins(RevolverPlugin)
   .dependsOn(sharedJS)
 
 // Client projects (just one in this case)
@@ -52,7 +53,9 @@ lazy val server = (project in file("server")) .settings(
     scalaVersion := Settings.versions.scala,
     scalacOptions ++= Settings.scalacOptions,
     libraryDependencies ++= Settings.jvmDependencies.value,
-    LessKeys.compress in Assets := true
+    LessKeys.compress in Assets := true,
+    mainClass in reStart := Some("spray_examples.simple.Server"),
+    baseDirectory in reStart := new File(".")
   )
   .enablePlugins(PlayScala)
   .disablePlugins(PlayLayoutPlugin) // use the standard directory layout instead of Play's custom
@@ -65,4 +68,6 @@ onLoad in Global := (Command.process("project server", _: State)) compose (onLoa
 //mainClass in Global := Some("com.danielasfregola.quiz.management.Main")
 fork in run := true
 cancelable in Global := true
+mainClass in reStart := Some("spray_examples.simple.Server")
+
 
