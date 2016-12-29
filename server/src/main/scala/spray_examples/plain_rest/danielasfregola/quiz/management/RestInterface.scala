@@ -13,7 +13,8 @@ class RestInterface(implicit val executionContext: ExecutionContext) extends Htt
 
   val questionService = new QuestionService
 
-  val routes: Route = questionRoutes
+  def routes: Route = questionRoutes
+
 
 }
 

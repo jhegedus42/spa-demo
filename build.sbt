@@ -47,6 +47,7 @@ lazy val client: Project = (project in file("client"))
 lazy val clients = Seq(client)
 
 // instantiate the JVM project for SBT with some additional settings
+val d="spray_examples.plain_rest.danielasfregola.quiz.management.Main"
 lazy val server = (project in file("server")) .settings(
     name := "server",
     version := Settings.version,
@@ -55,6 +56,7 @@ lazy val server = (project in file("server")) .settings(
     libraryDependencies ++= Settings.jvmDependencies.value,
     LessKeys.compress in Assets := true,
     mainClass in reStart := Some("spray_examples.simple.Server"),
+//    mainClass in reStart := Some(d),
     baseDirectory in reStart := new File(".")
   )
   .enablePlugins(PlayScala)
@@ -68,6 +70,5 @@ onLoad in Global := (Command.process("project server", _: State)) compose (onLoa
 //mainClass in Global := Some("com.danielasfregola.quiz.management.Main")
 fork in run := true
 cancelable in Global := true
-mainClass in reStart := Some("spray_examples.simple.Server")
 
 

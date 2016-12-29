@@ -18,6 +18,7 @@ object Settings {
     "-unchecked",
     "-deprecation",
     "-feature"
+//    "-Xlog-implicits"
   )
 
   /** Declare global dependency versions here to avoid mismatches in multi part dependencies */
